@@ -1,0 +1,31 @@
+version: "3"
+services:
+  gremlin-server:
+    build: ./gremlin-server
+    container_name: gremlin-server
+    ports:
+      - "8182:8182"
+    volumes:
+      - data:/data
+
+  gremlin-console:
+    build: ./gremlin-console
+    container_name: gremlin-console
+    volumes:
+      - data:/data
+
+  neo4j-server:
+    image: neo4j:2.3
+    container_name: neo4j-server
+    environment:
+      # - NEO4J_AUTH=neo4j/pass
+      - NEO4J_AUTH=none
+    ports:
+      - "7474:7474" # HTTP
+      - "7687:7687" # Bolt
+    volumes:
+      - data:/data
+
+volumes:
+  data:
+    driver: local
